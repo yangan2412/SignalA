@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  trading-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: signala-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Persist database and logs
+      - ./data:/app/data
+      - ./logs:/app/logs
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    networks:
+      - trading-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # Uncomment if you want to run in development mode with live reload
+    # volumes:
+    #   - ./src:/app/src
+    #   - ./main.py:/app/main.py
+
+networks:
+  trading-network:
+    driver: bridge
+
+volumes:
+  data:
+  logs:
