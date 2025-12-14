@@ -18,7 +18,8 @@
       "Bash(ls:*)",
       "Bash(pip install:*)",
       "WebSearch",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(git merge:*)"
     ]
   }
 }
