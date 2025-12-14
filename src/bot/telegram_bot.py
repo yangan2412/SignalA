@@ -99,7 +99,21 @@ Bot tự động phân tích thị trường và gửi tín hiệu dựa trên:
             logger.error(f"Failed to send signal: {e}")
 
     def _format_signal_message(self, signal: Dict) -> str:
-        """Format signal into readable Telegram message"""
+        """
+        Format signal into readable Telegram message
+        Routes to appropriate formatter based on signal_type
+        """
+        signal_type = signal.get('signal_type', 'STANDALONE')
+
+        if signal_type == 'INITIAL':
+            return self._format_initial_signal(signal)
+        elif signal_type == 'MARTINGALE':
+            return self._format_martingale_signal(signal)
+        else:  # STANDALONE
+            return self._format_standalone_signal(signal)
+
+    def _format_standalone_signal(self, signal: Dict) -> str:
+        """Format standalone signal (non-martingale)"""
         side = signal['side']
         emoji = "🟢" if side == "LONG" else "🔴"
         direction = "LONG" if side == "LONG" else "SHORT"
@@ -130,22 +144,140 @@ Bot tự động phân tích thị trường và gửi tín hiệu dựa trên:
         message = f"""
 {emoji} <b>{direction} SIGNAL - {signal['symbol']}</b>
 
-💰 <b>Entry:</b> ${entry:,.2f}
-🛑 <b>Stop Loss:</b> ${sl:,.2f} ({sl_pct:.2f}%)
-🎯 <b>Take Profit 1:</b> ${tp1:,.2f} (+{tp1_pct:.2f}%)
-🎯 <b>Take Profit 2:</b> ${tp2:,.2f} (+{tp2_pct:.2f}%)
+💰 <b>Entry:</b> ${entry:,.6f}
+🛑 <b>Stop Loss:</b> ${sl:,.6f} ({sl_pct:+.2f}%)
+🎯 <b>Take Profit 1:</b> ${tp1:,.6f} ({tp1_pct:+.2f}%)
+🎯 <b>Take Profit 2:</b> ${tp2:,.6f} ({tp2_pct:+.2f}%)
 
 📊 <b>Indicators:</b>
 {indicators_text}
 
 ⚖️ <b>Risk/Reward:</b> 1:{risk_reward:.1f}
 🎯 <b>Confidence:</b> {stars} ({confidence*100:.0f}%)
-🤖 <b>Strategy:</b> {signal.get('strategy', 'Unknown')}
+💼 <b>Leverage:</b> {signal.get('recommended_leverage', 20)}x | <b>Margin:</b> ${signal.get('recommended_margin', 20)}
 
-<i>⏰ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</i>
+🤖 <b>Strategy:</b> {signal.get('strategy', 'Unknown')}
+🕐 <i>{datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}</i>
         """
 
         return message.strip()
+
+    def _format_initial_signal(self, signal: Dict) -> str:
+        """Format INITIAL signal (first entry of martingale sequence)"""
+        side = signal['side']
+        emoji = "🟢" if side == "LONG" else "🔴"
+        direction = "LONG" if side == "LONG" else "SHORT"
+
+        entry = signal['entry_price']
+        tp1 = signal['take_profit_1']
+        tp2 = signal['take_profit_2']
+
+        # Format indicators
+        indicators_text = "\n".join([
+            f"  • {key}: {value}"
+            for key, value in signal.get('indicators', {}).items()
+        ])
+
+        # Confidence stars
+        confidence = signal.get('confidence', 0.5)
+        stars = "⭐" * int(confidence * 5)
+
+        max_steps = signal.get('max_steps', 5)
+        trigger_pct = signal.get('trigger_percent', 15.0)
+
+        message = f"""
+{emoji} <b>{direction} SIGNAL (INITIAL ENTRY) - {signal['symbol']}</b>
+
+📊 <b>Sequence Info:</b>
+  • Step: 1/{max_steps}
+  • Mode: <b>Martingale Enabled</b>
+
+💰 <b>Entry:</b> ${entry:,.6f}
+🎯 <b>Take Profit 1:</b> ${tp1:,.6f} (-{abs((tp1-entry)/entry*100):.2f}%)
+🎯 <b>Take Profit 2:</b> ${tp2:,.6f} (-{abs((tp2-entry)/entry*100):.2f}%)
+🛑 <b>Stop Loss:</b> None (martingale mode)
+
+📊 <b>Indicators:</b>
+{indicators_text}
+
+🎯 <b>Confidence:</b> {stars} ({confidence*100:.0f}%)
+💼 <b>Recommended:</b> {signal.get('recommended_leverage', 25)}x leverage, ${signal.get('recommended_margin', 20)} margin
+
+🔔 <b>Martingale Settings:</b>
+  • Will suggest adding at {trigger_pct:+.0f}% price move
+  • Max {max_steps} steps
+  • TPs recalculate from weighted avg after each step
+
+🤖 <b>Strategy:</b> {signal.get('strategy', 'Unknown')}
+🕐 <i>{datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}</i>
+        """
+
+        return message.strip()
+
+    def _format_martingale_signal(self, signal: Dict) -> str:
+        """Format MARTINGALE signal (additional entry in sequence)"""
+        side = signal['side']
+        emoji = "🟠" if side == "SHORT" else "🟡"
+        direction = "LONG" if side == "LONG" else "SHORT"
+
+        entry = signal['entry_price']
+        margin = signal.get('actual_margin', signal.get('recommended_margin', 20))
+        step = signal.get('step_number', 2)
+        max_steps = signal.get('max_steps', 5)
+
+        # Get sequence data if available
+        sequence_data = signal.get('sequence_data', {})
+        weighted_avg = sequence_data.get('weighted_avg_entry', entry)
+        total_margin = sequence_data.get('total_margin', margin)
+        tp1 = signal.get('take_profit_1')
+        tp2 = signal.get('take_profit_2')
+
+        message = f"""
+{emoji} <b>MARTINGALE ENTRY #{step} - {signal['symbol']}</b>
+
+📊 <b>Sequence Info:</b>
+  • Step: {step}/{max_steps}
+  • Direction: {direction}
+
+💰 <b>New Entry:</b> ${entry:,.6f}
+💼 <b>New Margin:</b> ${margin:.2f}
+
+📊 <b>UPDATED TARGETS:</b>
+  • Weighted Avg Entry: ${weighted_avg:,.6f}
+  • TP1: ${tp1:,.6f}
+  • TP2: ${tp2:,.6f}
+
+💰 <b>Total Position:</b>
+  • Total Margin: ${total_margin:.2f}
+  • Steps: {step}
+  • Leverage: {signal.get('recommended_leverage', 20)}x
+
+⚠️ <b>Important:</b>
+All TPs calculated from weighted average entry.
+Close ALL positions in sequence when TP/SL hit.
+
+🤖 <b>Strategy:</b> {signal.get('strategy', 'Unknown')}
+🕐 <i>{datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}</i>
+        """
+
+        return message.strip()
+
+    async def send_message(self, message: str):
+        """
+        Generic send message method for notifications
+
+        Args:
+            message: HTML formatted message string
+        """
+        try:
+            await self.app.bot.send_message(
+                chat_id=self.chat_id,
+                text=message,
+                parse_mode='HTML'
+            )
+            logger.debug("Message sent successfully")
+        except Exception as e:
+            logger.error(f"Failed to send message: {e}", exc_info=True)
 
     async def send_analysis_report(self, report: str):
         """Send trade analysis report"""

@@ -1,0 +1,117 @@
+================================================================================
+COMPREHENSIVE SHORT TRADE ANALYSIS
+================================================================================
+
+📊 BASIC STATS:
+Total SHORT trades: 95
+Winning trades: 77 (81.1%)
+Total PNL: $4179.62
+Average PNL: $44.00
+
+⚠️ RISK METRICS:
+Max consecutive losses: 3
+Max drawdown: $-134.17
+Sharpe-like ratio (avg/std): 0.52
+
+🎯 WINNING VS LOSING TRADES:
+
+Winning trades:
+  • Count: 77
+  • Avg leverage: 25.3x
+  • Avg margin: $18.3
+  • Avg duration: 162.5 hours
+  • Avg price drop: 13.33%
+  • Avg PNL: $61.90
+
+Losing trades:
+  • Count: 18
+  • Avg leverage: 28.1x
+  • Avg margin: $12.2
+  • Avg duration: 250.5 hours
+  • Avg price drop: 15.87%
+  • Avg PNL: $-32.59
+
+📈 LEVERAGE ANALYSIS:
+  5x:   1 trades | Win rate: 100.0% | Avg PNL: $ +59.63
+  10x:   9 trades | Win rate: 100.0% | Avg PNL: $ +45.81
+  15x:  16 trades | Win rate:  68.8% | Avg PNL: $ +48.82
+  20x:  17 trades | Win rate:  82.4% | Avg PNL: $ +17.94
+  25x:  15 trades | Win rate:  93.3% | Avg PNL: $ +66.72
+  30x:  18 trades | Win rate:  83.3% | Avg PNL: $ +56.35
+  35x:   6 trades | Win rate:  50.0% | Avg PNL: $  -0.11
+  50x:  13 trades | Win rate:  76.9% | Avg PNL: $ +46.71
+
+💰 BEST PERFORMING SYMBOLS (min 3 trades):
+  turbo     :  7 trades | Win:  85.7% | Total: $ +631.35 | Avg: $+90.19
+  cake      :  4 trades | Win:  75.0% | Total: $ +514.65 | Avg: $+128.66
+  the       :  3 trades | Win: 100.0% | Total: $ +388.74 | Avg: $+129.58
+  portal    :  3 trades | Win: 100.0% | Total: $ +383.67 | Avg: $+127.89
+  1000bonk  :  4 trades | Win:  75.0% | Total: $ +311.60 | Avg: $+77.90
+  1000000mog:  3 trades | Win: 100.0% | Total: $ +291.88 | Avg: $+97.29
+  xrp       :  8 trades | Win:  75.0% | Total: $ +261.01 | Avg: $+32.63
+  lista     :  4 trades | Win: 100.0% | Total: $  +91.08 | Avg: $+22.77
+  btc       :  8 trades | Win:  75.0% | Total: $  +81.34 | Avg: $+10.17
+  moodeng   :  3 trades | Win:  66.7% | Total: $  +51.26 | Avg: $+17.09
+
+⏱️  DURATION ANALYSIS:
+  <1h   :   3 trades | Win rate:  66.7% | Avg PNL: $  +3.96
+  1-6h  :   6 trades | Win rate:  83.3% | Avg PNL: $ +23.23
+  6-24h :  18 trades | Win rate:  83.3% | Avg PNL: $ +36.42
+  1-3d  :  24 trades | Win rate:  83.3% | Avg PNL: $ +31.83
+  3-7d  :  19 trades | Win rate: 100.0% | Avg PNL: $ +77.46
+  >7d   :  25 trades | Win rate:  64.0% | Avg PNL: $ +45.49
+
+🕐 TIME OF DAY ANALYSIS:
+  Night (0-6)         :  30 trades | Win rate:  86.7% | Avg PNL: $ +35.48
+  Morning (6-12)      :  16 trades | Win rate:  81.2% | Avg PNL: $ +41.69
+  Afternoon (12-18)   :  20 trades | Win rate:  85.0% | Avg PNL: $ +50.96
+  Evening (18-24)     :  29 trades | Win rate:  72.4% | Avg PNL: $ +49.27
+
+📉 PRICE MOVEMENT ANALYSIS:
+For winning trades, average price drop needed: 13.33%
+For losing trades, average price movement: 15.87%
+
+🏆 TOP 10 BEST TRADES:
+  portal     | Margin: $ 50 | Lev: 25x | Entry: $  0.076500 → Exit: $  0.054100 | PNL: $ +366.01 | Duration: 292.4h
+  cake       | Margin: $ 40 | Lev: 30x | Entry: $  4.258000 → Exit: $  3.222000 | PNL: $ +291.97 | Duration: 79.0h
+  turbo      | Margin: $ 40 | Lev: 15x | Entry: $  0.006495 → Exit: $  0.003490 | PNL: $ +277.60 | Duration: 833.9h
+  the        | Margin: $ 30 | Lev: 25x | Entry: $  0.698800 → Exit: $  0.441600 | PNL: $ +276.04 | Duration: 34.8h
+  1000bonk   | Margin: $ 50 | Lev: 30x | Entry: $  0.038893 → Exit: $  0.032018 | PNL: $ +265.15 | Duration: 161.8h
+  xrp        | Margin: $ 50 | Lev: 50x | Entry: $  3.542300 → Exit: $  3.221100 | PNL: $ +226.69 | Duration: 139.3h
+  nan        | Margin: $ 40 | Lev: 10x | Entry: $  0.004091 → Exit: $  0.001963 | PNL: $ +208.07 | Duration: 19.9h
+  cake       | Margin: $ 30 | Lev: 30x | Entry: $  4.142000 → Exit: $  3.222000 | PNL: $ +199.90 | Duration: 81.5h
+  1000000mog | Margin: $ 15 | Lev: 50x | Entry: $  3.966300 → Exit: $  3.009500 | PNL: $ +180.92 | Duration: 219.9h
+  nan        | Margin: $ 30 | Lev: 15x | Entry: $  0.137100 → Exit: $  0.083500 | PNL: $ +175.93 | Duration: 17.2h
+
+❌ TOP 10 WORST TRADES:
+  eth        | Margin: $ 20 | Lev: 35x | Entry: $3841.150000 → Exit: $4311.640000 | PNL: $  -85.74 | Duration: 470.5h
+  nan        | Margin: $ 10 | Lev: 15x | Entry: $  0.057500 → Exit: $  0.083500 | PNL: $  -67.83 | Duration: 34.2h
+  nan        | Margin: $  5 | Lev: 15x | Entry: $  0.044000 → Exit: $  0.083500 | PNL: $  -67.33 | Duration: 35.7h
+  eth        | Margin: $ 10 | Lev: 35x | Entry: $3714.540000 → Exit: $4311.640000 | PNL: $  -56.26 | Duration: 565.3h
+  sun        | Margin: $ 15 | Lev: 20x | Entry: $  0.027876 → Exit: $  0.031892 | PNL: $  -43.22 | Duration: 8.8h
+  eth        | Margin: $ 30 | Lev: 35x | Entry: $4157.700000 → Exit: $4311.640000 | PNL: $  -38.88 | Duration: 213.7h
+  xrp        | Margin: $  5 | Lev: 50x | Entry: $  2.798400 → Exit: $  3.221100 | PNL: $  -37.76 | Duration: 235.2h
+  xrp        | Margin: $ 10 | Lev: 50x | Entry: $  2.999100 → Exit: $  3.221100 | PNL: $  -37.01 | Duration: 224.4h
+  btc        | Margin: $ 10 | Lev: 25x | Entry: $91190.560000 → Exit: $104025.370000 | PNL: $  -35.19 | Duration: 954.0h
+  1000bonk   | Margin: $ 35 | Lev: 30x | Entry: $  0.030982 → Exit: $  0.032018 | PNL: $  -35.11 | Duration: 183.2h
+
+
+================================================================================
+STRATEGY RECOMMENDATIONS:
+================================================================================
+
+✅ Based on 95 SHORT trades with 81.1% win rate:
+
+1. LEVERAGE: Use 25x average
+   • Most consistent: 15-25x range had best win rates
+
+2. MARGIN: $18 average per trade
+
+3. DURATION: Hold for ~50 hours (median winning trade)
+
+4. BEST SYMBOLS: Focus on turbo, cake, the
+
+5. STOP LOSS: Based on worst trades, consider SL at ~19.0% from entry
+
+6. TAKE PROFIT: Average winning trade captured 13.33% price drop
+

@@ -22,8 +22,11 @@ class BingXClient:
         })
 
     def _generate_signature(self, params: Dict) -> str:
-        """Generate HMAC SHA256 signature"""
-        query_string = urlencode(sorted(params.items()))
+        """Generate HMAC SHA256 signature for BingX API"""
+        # Sort parameters and create query string
+        query_string = '&'.join([f"{k}={params[k]}" for k in sorted(params.keys())])
+
+        # Generate signature
         signature = hmac.new(
             self.secret_key.encode('utf-8'),
             query_string.encode('utf-8'),
@@ -40,7 +43,9 @@ class BingXClient:
 
         if signed:
             params['timestamp'] = int(time.time() * 1000)
-            params['signature'] = self._generate_signature(params)
+            # Generate signature BEFORE adding it to params
+            signature = self._generate_signature(params)
+            params['signature'] = signature
 
         try:
             if method == 'GET':
@@ -175,6 +180,25 @@ class BingXClient:
 
         response = self._request('GET', '/openApi/swap/v2/user/income', params)
         return response.get('data', [])
+
+    def get_24hr_tickers(self) -> List[Dict]:
+        """
+        Get 24hr ticker price change statistics for all symbols
+
+        Returns:
+            List of tickers with fields:
+            - symbol: Trading pair
+            - priceChangePercent: 24h % change
+            - volume: 24h volume
+            - lastPrice: Current price
+        """
+        try:
+            response = self._request('GET', '/openApi/swap/v2/quote/ticker',
+                                   params={}, signed=False)
+            return response.get('data', [])
+        except Exception as e:
+            logger.error(f"Failed to get 24hr tickers: {e}")
+            return []
 
     def test_connection(self) -> bool:
         """Test API connection and credentials"""

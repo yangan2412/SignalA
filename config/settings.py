@@ -19,8 +19,18 @@ class Settings:
     DEFAULT_TIMEFRAME = os.getenv("DEFAULT_TIMEFRAME", "1h")
     SIGNAL_CONFIDENCE_THRESHOLD = float(os.getenv("SIGNAL_CONFIDENCE_THRESHOLD", "0.7"))
 
+    # Symbol Selection
+    SYMBOL_MODE = os.getenv("SYMBOL_MODE", "whitelist")  # 'whitelist' or 'volatility'
+    VOLATILITY_TOP_N = int(os.getenv("VOLATILITY_TOP_N", "20"))
+    VOLATILITY_MIN_VOLUME = float(os.getenv("VOLATILITY_MIN_VOLUME", "1000000"))
+
+    # Martingale Configuration
+    ENABLE_MARTINGALE = os.getenv("ENABLE_MARTINGALE", "true").lower() == "true"
+    MARTINGALE_MAX_STEPS = int(os.getenv("MARTINGALE_MAX_STEPS", "5"))
+    MARTINGALE_TRIGGER_PCT = float(os.getenv("MARTINGALE_TRIGGER_PCT", "15.0"))
+
     # Database
-    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///trading_bot.db")
+    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///signala.db")
 
     # Logging
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
